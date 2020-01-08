@@ -14,6 +14,16 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+
+"""
+This code was modified by John Comonitski to be able to take a given 
+network and classify multiple objects. This file originally took a
+single image as and input and printed out it's classification. This 
+program now takes a folder full of images as its input, classifies every
+image in the folder, checks to see how accurate it was and reports that 
+accuracy to a CSV file.
+"""
+
 from __future__ import print_function
 import sys
 import os
@@ -121,8 +131,11 @@ def main():
     outFile.close()
 
     #modiied from the original to run the newtork on each image
+    #runs classification on each image in testImages
     for j in range(len(testImages)):
+        #Output is what is printed to csv
         output = ""
+        #current image
         images = testImages[j]
         # Start sync inference
         log.info("Starting inference in synchronous mode")
@@ -167,6 +180,7 @@ def main():
                 output += ",1"
             else:
                 output += ",0"
+        #outputs CSV
         outFile = open("output-" +netName+".csv","a")
         outFile.write(output+"\n")
         outFile.close()
